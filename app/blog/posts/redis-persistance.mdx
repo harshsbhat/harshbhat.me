@@ -1,0 +1,38 @@
+---
+title: 'Persistence Strategies in In-Memory Databases'
+publishedAt: '2024-07-01'
+summary: 'Redis is considered as one of the most famous industry standard databases. In this article we dive into how Redis maintains its persistence'
+---
+
+As we all know, RAM is volatile memory, which means that every time the server crashes or is restarted, the data stored in RAM is wiped. So, why is having an in-memory database still a good idea?
+
+Well, it provides a much faster solution compared to traditional HDD solutions. For context, check out the following diagram if you are a data person.
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/ram-hdd.png" alt="RAM vs HDD Speed" height="100" />
+
+
+But this speed comes at a cost in terms of size and consistency. Fortunately, there is a solution for durability. Newer in-memory databases like Redis provide us with two major solutions for persistence:
+
+**1. AOF (Append Only Files)**
+
+This is a logging-based solution. In simple terms, it keeps track of every single change by logging each write operation that occurs and storing those logs on the HDD. Once the database crashes, it can recover the data using the log file from the HDD.
+
+Even though this option is great for persistence, writing to the HDD after every single write operation diminishes the speed and latency advantages of in-memory databases. 
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/aof.png" alt="AOF" height="100" />
+
+Credits: [https://www.atatus.com/](https://www.atatus.com/)    
+
+**2. Snapshots**
+
+Just like the name suggests, snapshots take periodic copies of the data and store them in the main memory after certain intervals. Since this process usually occurs asynchronously in the background, it doesn't affect the latency of write operations.
+
+However, what happens if the server crashes between two snapshot intervals? In that case, there is no way to recover the data that was written after the last snapshot. So, while snapshots compromise on persistence, they retain the speed advantages of in-memory databases.
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/snapshots.png" alt="SNAPSHOTS" height="100" />
+
+Credits: [https://architecturenotes.co/](https://architecturenotes.co/)    
+
+**Conclusion:** Although both of these solutions can provide a decent level of durability, each has its drawbacks. If you prioritize speed over durability, go for snapshots. If you prefer the opposite, choose AOF.
+
+I am still researching better ways to maintain the persistence of these databases. For now, adios!
