@@ -1,0 +1,39 @@
+---
+title: 'Role of ratelimiting in DDoS prevention'
+publishedAt: '2024-07-13'
+summary: 'Let us discuss the role of rate limiting when it comes to DDOS attacks'
+---
+
+
+
+For context, let's quickly understand the meaning of DDoS attacks. DDoS (Distributed Denial of Service) attacks typically involve overwhelming a service with a high load of requests, making the service inaccessible to legitimate users.
+
+Kind of like this:
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/ddos.png" alt="DDoS" height="100" />
+
+How can rate limiting play a role in DDoS protection? It’s fairly simple. What if these malicious requests never reach the server at all?
+
+For instance, if you set a rate limit on one of your routes using a unique identifier like the IP address or API key, these limits should ideally be enforced before any heavy computations in your service take place.
+
+By setting the right rate limits, the chances of your service getting DDoSed are much lower compared to routes without any rate limiting in place.
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/ddos-ratelimit.png" alt="Ratelimiting" height="100" />
+
+If the requests don’t reach the heavy/expensive computations, the chances of your services going down or you getting a big bill are significantly lower.
+
+With services like [Unkey](https://app.unkey.com/), it’s much easier to implement standalone rate limits for your services. It literally takes just a few lines of code:
+
+```javascript
+const { success } = await unkey.limit("my-user-id")
+if (!success){
+  // reject request
+}
+// handle request
+```
+
+That's it. 
+
+**Conclusion**:
+
+To conclude, rate limiting prevents malicious requests from reaching the expensive computations, saving you from downtime and potentially saving you money too!
