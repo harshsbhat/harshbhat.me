@@ -1,0 +1,29 @@
+---
+title: 'Batch writing for Persistence in in-memory databases.'
+publishedAt: '2024-07-08'
+summary: 'Currently, there are two main ways to maintain consistency in in-memory databases. We're exploring a third option. Let's discuss that in this article'
+---
+
+Before we begin this article, it's important to have context. Make sure you have basic knowledge about Redis and how it maintains durability. You can read one of my articles to gain more context: **[Here](https://www.harshbhat.me/blog/redis-persistance)**
+
+Since AOF has a latency overload, there needs to be a better solution that finds a golden point, taking the best from both approaches.
+
+## What is batch writing
+
+Just like AOF, we are going to keep a log file that is maintained in the main memory, which is later used to recover the data. However, we will insert the write operations into main memory after specific intervals.
+
+In batch writing, it's important to keep track of these write operations in a memory buffer before they are logged into the main memory. Here is my hand drawn diagram to give a better understanding.
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/batch-writing.png" alt="Batch writing" height="100" />
+
+We will need to maintain an in-memory buffer queue to store the write operations during the interval period. Why a queue? It is the best data structure to maintain the sequence of operations. 
+
+## Why it might be better than AOF? 
+
+In AOF, we write to the main memory after every single write operation, which results in higher latency than necessary.
+
+However, in batch writing, logs are written to an in-memory buffer, which asynchronously commits them to main memory. This results in lower latency. There is even a chance that this approach might outperform snapshots in terms of persistence, but we don't have a concrete answer for that just yet.
+
+## Conclusion
+
+This approach might be a good idea, but my friends and I are still working on developing this for our in-memory database. Stay tuned to learn more about it.
