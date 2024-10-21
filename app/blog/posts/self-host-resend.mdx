@@ -1,0 +1,38 @@
+---
+title: 'Open source SES wrapper '
+publishedAt: '2024-08-04'
+summary: 'Open source SES wrapper that allows you to self host service similar to resend.'
+---
+
+Today, we are going to talk about an open-source alternative for email-sending services that can literally save you from a big monthly bill.
+
+We all know sending emails directly with SES can be a headache. There should be a simpler alternative for that. However, subscribing to a SaaS model, especially when you have a large audience, can become quite expensive. That’s why having a self-hostable option for these services is crucial.
+
+That’s where service like [Unsend](https://unsend.dev/) comes in. Why Unsend? It’s fairly easy to self-host and uses SES on the backend, which is likely the most affordable option available right now.
+
+It also offers a great UI, unlike many other open-source alternatives that often compromise on user experience to cut costs.
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/unsend.png" alt="Unsend UI" height="100" />
+
+By the way, this is not sponsored—it’s something I have used and contributed to multiple times.
+
+Unsend also offers a custom SMTP platform that can be integrated with providers like Supabase, NextAuth, and others.
+
+Kind of like this:
+
+```javascript
+const transporter = nodemailer.createTransport({
+  host: "smtp.unsend.dev",
+  port: 465,
+  secure: false,
+  auth: {
+    user: "unsend",
+    pass: "us_123",
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+```
+
+If you want to self-host this solution, you can read more about it [here](https://docs.unsend.dev/get-started/self-hosting)
