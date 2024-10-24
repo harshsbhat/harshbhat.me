@@ -1,0 +1,80 @@
+---
+title: 'Decoding Monorepos'
+publishedAt: '2024-08-14'
+summary: 'What are monorepos? Why do we even need them? Let us decode everything today'
+---
+
+I just started a new project a few days ago. It got me wondering: how would I have built this without using monorepos? 🤔. 
+
+Essentially, it was an API-first project, meaning most users were going to interact with the app through the API. But having a decent dashboard was equally important as well.
+
+So what do we do? Create an API project, a dashboard project, a landing page project, and a documentation project. What about internal packages? Even writing about how I was planning to do this is painful, lol.
+
+If you have a similar story, that’s where something like a monorepo comes into the picture. In simple terms, monorepos are **mono repositories**, meaning they contain multiple projects within a single repository.
+
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/monorepos1.png" alt="Monorepo v1" height="100" />
+
+Having a structure like a monorepo, where most of your apps are inside the same repository, means they can easily share internal packages across these projects.
+
+Now let's get to the juicy part. How do you create a Monorepo? That’s where services like Turbrepo come into picture.
+
+```
+turborepo/
+├── apps/
+│   ├── api/ API application
+│   ├── dashboard/ Dashboard application
+│   └── www/ landing page application
+├── internal/ Internal packages
+├── packages/ Packages pushed on npm
+├── .env
+├── .gitignore
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+└── turbo.json
+```
+
+This is one of my recent projects. In the initial stages, deployment, testing, and development are really fast with this monorepo structure. However, as you grow, the app will need to rebuild and redeploy itself even for a simple typo. So use it at your own risk.
+
+But here is how you can quickly get started:
+
+```bash
+pnpm dlx create-turbo@latest
+```
+
+Name the project:
+
+```bash
+? Where would you like to create your Turborepo? (./my-turborepo)
+```
+
+Select the package manager:
+
+```bash
+? Which package manager do you want to use? (Use arrow keys)
+❯ npm
+  pnpm
+  yarn
+  - Bun (beta) (not installed)
+```
+
+and you are all set! You should have something looking like this:
+
+```
+turborepo/
+├── .vscode/
+├── apps/
+│   ├── docs/
+│   └── web/
+├── packages/
+├── .gitignore
+├── .npmrc
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── README.md
+└── turbo.json
+```
+
+Make changes to this app based on your requirements, and enjoy faster, more maintainable projects! 😉
