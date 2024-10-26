@@ -1,0 +1,82 @@
+---
+title: 'Cost-based Rate limiting my OrdoX routes'
+publishedAt: '2024-09-26'
+summary: 'Talking about how I rate limited my OrdoX routes/'
+---
+
+Let me set the context for this article. We were fine-tuning OpenAI model for one of our college projects where we needed to scrape HTML from websites and then convert it into JSON data so that it is easily usable. We ideally needed this through a Rest API so that it is accessible through our code.
+
+That's why I quickly built an API based application called [OrdoX](https://ordox.vercel.app/). Done. Since it was fairly simple I quickly deployed it too. 
+
+
+## What about Rate limiting?
+
+Now that the app was in production, there was a chance someone could write a bash script called my API, which essentially made me run out of all the OpenAI tokens.
+
+So what do we do? Implement a rate limit. But how? It’s kind of a headache to build a rate limit by writing hard algorithms like Token Bucket, Leaky Bucket, Fixed Window Counter, etc. What if we had a service that could help us with that?
+
+That's where Unkey came into the picture. Standalone rate limit with [Unkey](https://app.unkey.com/) was the quickest and easiest solution to build in this scenario.
+
+## How did we actually build it?
+
+Setting rate limits with Unkey is a truly enjoyable experience, and I’m not even exaggerating.Setting rate limits with Unkey is a truly enjoyable experience, and I’m not even exaggerating.
+
+Setting up the Unkey Account was fairly easy. Just went to their website [https://app.unkey.com/ratelimits](https://app.unkey.com/ratelimits) created a new namespace. Created a root key that I was going to use to initialize unkey with rate limit permisions. You can create a similar root key [here](https://app.unkey.com/settings/root-keys/new?permissions=ratelimit.*.create_namespace,ratelimit.*.create_namespace,ratelimit.*.read_namespace,ratelimit.*.limit,ratelimit.*.update_namespace,ratelimit.*.delete_namespace) 
+
+Since we don't have any sort of authentication for our app we decided to use IP as the unique identifier. Here are some quick code snippets.
+
+Initializing Unkey:
+
+```javascript
+import { Ratelimit } from "@unkey/ratelimit"
+
+
+export const unkey = new Ratelimit({
+  rootKey: process.env.UNKEY_ROOT_KEY!,
+  namespace: "ordox",
+  limit: 2,
+  duration: "30s",
+  async: true
+})
+```
+
+Using the rate limit:
+
+```javascript
+  // Get the client's IP address
+  const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
+
+  // Check the rate limit
+  const rateLimitResponse = await unkey.limit(ip);
+
+  // If the rate limit is exceeded, respond with an error
+  if (!rateLimitResponse.success) {
+    return NextResponse.json(
+      { message: "Rate limit exceeded. Please try again later." },
+      { status: 429 }
+    );
+  }
+```
+That was it! We had a rate limit set for 2 requests per 30 seconds. But wait! We later implemented one more route that used GPT-3.5 Turbo which was far less expensive than this route. Meaning we could now lower the rate limit for that route.
+
+But how? Do we need to create one more namespace and use it? Thankfully unkey had our back one more time. There is a feature called `cost`.
+
+So while initializing unkey we had the limit set to `2` right? Let's quicly change it to `8`. While using this rate limit let's pass one more vlaue called cost kind of like this.
+
+Expensive route gpt-4o
+
+```javascript
+const rateLimitResponse = await unkey.limit(ip, { cost: 4 });
+```
+
+Cheaper route gpt-3.5-turbo
+
+```javascript
+const rateLimitResponse = await unkey.limit(ip, { cost: 2 });
+```
+
+Now we had our routes rate limited 8 / 4 = 2. So expensive route was rate limited to be used 2 times per 30 seconds. While the cheaper one was rate limited to be used 8 / 2 = 4 times per 30 seconds.
+
+That's it. We had our routes rate limited that too cost based rate limited with just 5-10 lines of code. How amazing is that?
+
+If you want to know more about unkey check out their official documentation [here](https://www.unkey.com/docs/).
