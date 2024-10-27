@@ -4,4 +4,47 @@ publishedAt: '2024-10-27'
 summary: 'Passkeys as a Password Replacement vs. for Multi-Factor Authentication (MFA): What is Best for Security?'
 ---
 
-Usually while building authentication there are two things developers like us keep in mind user convinivce and the security. That's exactly where something like Passkey authentication comes into the picture.
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/hano-passkey-mfa.png" alt="Hanko Cover" height="10" />
+
+Usually while building authentication, there are two things developers like us keep in mind: user convenience and security. That's exactly where something like Passkey authentication comes into the picture.
+
+Most of the big tech companies like Microsoft. Apple and Google provide some sort of passwordless authentication. But arguably they are just an additional layer of security on top of MFA rather than something that can replace passwords completely.
+
+In this article we will explore both of them and try to understand how Passkeys with insights from platforms like [Hanko](hanko.io) can revolutionize the game.
+
+## Understanding Passkeys:
+
+Passkeys are a type of passwordless authentication that securely confirms a user's identity without the need for conventional passwords by using cryptographic keys. Passkeys are a very secure and smooth alternative to passwords because they rely on the device's biometric identification (such Face ID or fingerprint recognition) or device PIN.
+
+**How Passkeys Work:** Public-private key cryptography is the basis for how passkeys function. The device creates a key pair when a user registers a passkey: a private key that is safely kept on the user's device and a public key that is kept on the server. In order to verify the user without requiring a password, the server sends a challenge to the user's device during login. This challenge is signed by the private key.
+
+I know this sounds like an option that would require a lot of time and effort to build. That's where something like [Hanko Elements](https://docs.hanko.io/guides/hanko-elements/introduction) can help. You can pretty much plug and play their components and implement passkey authentication in minutes, not hours.
+
+## Using Passkeys to Replace Passwords: 
+
+Making User Authentication Easier Passkeys can be used in place of conventional passwords to improve security and provide a smooth user experience. Here's how:
+
+Because passkeys rely on cryptographic keys, which are very difficult to intercept or hack, they are naturally immune to phishing, credential stuffing, and brute-force attacks. When compared to conventional passwords, this provides a significant security advantage.
+
+Passkeys eliminate the need for users to memorize complicated passwords. Logging in is made as easy as using Face ID or scanning a fingerprint, which cuts down on login time and user annoyance, so pretty much like a one-click solution.
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/passkey-example.png" alt="Passkey example" height="10" />
+
+## Using Hanko to Integrate Passkeys into an MFA Strategy:
+
+Passkey integration into an MFA system is made easier by platforms like Hanko. With the help of Hanko's WebAuthn-based authentication tools, you can integrate passkeys with pre-existing authentication factors to create a safe and user-friendly MFA solution that complies with the most recent FIDO guidelines.
+
+Without requiring a lot of custom work, we can use Hanko to configure passkeys as part of MFA flows. This maintains compatibility across various user devices while facilitating the usage of passkeys by security-conscious companies.
+
+
+## Passkeys Alone vs. Passkeys in MFA: Which is Best?
+
+Ultimately, the organization's and its users' security requirements will determine whether passkeys should be used alone or in integration with an MFA setup:
+
+Passkeys may be an adequate password substitute for applications where speed and ease of use are essential. With this option, passwords are completely unnecessary, greatly improving user experience while maintaining strong security.
+
+The recommended strategy for high-risk environments is to use passkeys in conjunction with additional factors in an MFA setup. In this case, MFA makes sure that the device-bound passkey and the extra layer offer a strong defense against unwanted access, even in the event that one factor is compromised.
+
+## Conclusion:
+
+Passkeys are revolutionizing the user authentication space with both user convenience and security, and with services like Hanko, it is also fairly easy to build authentication with passkeys. Even though it is extremely safe to use passkeys alone. It might not be a bad idea to integrate it with MFA setup, just for an extra security layer.
