@@ -13,7 +13,7 @@ That's why I quickly built an API based application called [OrdoX](https://ordox
 
 ## What about Rate limiting?
 
-Now that the app was in production, there was a chance someone could write a bash script called my API, which essentially made me run out of all the OpenAI tokens.
+Now that the app was in production, there was a chance someone could write a bash script called my API, which can essentially make me run out of all the OpenAI tokens.
 
 So what do we do? Implement a rate limit. But how? It’s kind of a headache to build a rate limit by writing hard algorithms like Token Bucket, Leaky Bucket, Fixed Window Counter, etc. What if we had a service that could help us with that?
 
@@ -63,7 +63,7 @@ That was it! We had a rate limit set for 2 requests per 30 seconds. But wait! We
 
 But how? Do we need to create one more namespace and use it? Thankfully unkey had our back one more time. There is a feature called `cost`.
 
-So while initializing unkey we had the limit set to `2` right? Let's quicly change it to `8`. While using this rate limit let's pass one more vlaue called cost kind of like this.
+So while initializing unkey we had the limit set to `2` right? Let's quicly change it to `8`. While using this rate limit let's pass one more value called cost kind of like this.
 
 Expensive route gpt-4o
 
