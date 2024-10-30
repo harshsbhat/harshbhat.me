@@ -1,0 +1,98 @@
+---
+title: 'How to create a job fit Quiz with Formbricks'
+publishedAt: '2024-10-30'
+summary: 'In this article, we try to build a job fit quiz with formbricks'
+---
+
+Are you looking to create a Job Fit quiz before hiring new employees to see whether they align with your work culture? Well, Formbricks allows you to create customizable, advanced quizzes for free.
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/formbricks.png" alt="Formbricks Quiz"/>
+
+## What is a Job Fit Quiz?
+
+Understanding the personality and work ethic of the potential hire is an important process while hiring. Quizzes are just one way to gamify the process and make it fun 🤓.
+
+## What are some other ways to use Quizzes?
+
+- Marketing: Quizzes can be an engaging way to generate leads by asking potential customers to play free quizzes.
+
+- Employee Interaction: Quizzes can be used as a way to gamify the process for employees and understand their feelings to create a better work environment.
+
+- Feedback: Sometimes gamified versions like quizzes might be a better option to gain feedback rather than explicitly asking for it.
+
+
+## How to Create a Job Fit Quiz in Formbricks
+
+A Job Fit quiz works by assigning points. The quiz we’ll build today will have three options for each question: 20 points for the best fit, 10 points for a decent fit, and 5 points for not a good fit.
+
+### 1. Create a new Form 
+
+- Make sure you have a Formbricks account. If you don't create one [here](https://app.formbricks.com/)
+
+- Now click on new survey and create a blank form. ( you can customize the design if you want to)
+
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/scratch-formbricks.png" alt="Formbricks Quiz"/>
+
+### 2. Add new questions:
+
+- Create questions with single select options for example:
+
+
+**How do you prefer to work within a team?**
+
+- ***A. I thrive in collaborative environments and love brainstorming with others.***
+
+- ***B. I prefer a balanced mix of teamwork and independent projects.***
+
+- ***C. I work best alone and like to focus deeply on my tasks.***
+
+
+## 3. Create a variable:
+
+- Scroll down and click on variables. 
+
+- Create a new variable. I am going to name it `score` but you can name it whatever you want.
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/formbricks-variable.png" alt="Formbricks Variable"/>
+
+## 3. Add custom logic:
+
+Once we have created the question and score, it is time to add logic to them.
+
+- Now click on Show Advanced Settings >
+
+- Then, click on Add logic
+
+I want the option A to have 20 points, B to have 10 points and C to have 5 points. Let's do that:
+
+- Add logic select when the question with the desired answer.
+- Then Calculate -> score -> Add + -> Add your desired score (e.g., 20 for Option A).
+
+Repeat this for remaining options.
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/formbricks-logic.png" alt="Formbricks Variable"/>
+
+## 4. Repeat for all questions:
+
+- Click on the duplicate icon and quickly duplicate the questions.
+
+- Don't forget to change the answers and questions in the custom logic.
+
+## 5. Customize endings and display score:
+
+We need to display the score and customize the endings based on Pass or Fail. So let's do that right now.
+
+- Create multiple endings. We are going to create two here. One if the player scores a minimum of 50. The other one if the player scores less than 50. You can display variables like score on thank you card just by typing `@variable_name` for example `@score`. 
+
+<img src="https://raw.githubusercontent.com/harshsbhat/images/main/pass-fail.png" alt="Formbricks Variable"/>
+
+- Go to the last question and Add logic.
+
+- Instead of a question in the `when` section Add `score` 
+
+- Select the minimum scored required to pass. For example score >= 50 then Jump to Pass Ending.
+
+- Keep the Fail ending above the Pass ending to make sure anything other than score >= 50 goes to the fail ending.
+
+That's it! You now have your own Job Fit Quiz with [Formbricks](https://formbricks.com) 🎉. You can play around and try the Job Fit Quiz I created [here](https://app.formbricks.com/s/cm2u53wkk00023k00pa3n7zm7).
